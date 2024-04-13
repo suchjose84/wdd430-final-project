@@ -1,0 +1,4 @@
+<div *ngFor="let item of items">
+    <app-for-sale-card [item]="item" (deleteItem)="onDeleteItem($event)"></app-for-sale-card>
+</div>
+

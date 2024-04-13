@@ -1,0 +1,53 @@
+<div class="login-div panel panel-default">
+    <div class="panel-body">
+        <form id="login-form" #f="ngForm" (ngSubmit)="onLogin(f)">
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="login-username">Username</label>
+                    <input 
+                        type="text"
+                        id="login-username"
+                        name="username"
+                        class="form-control"
+                        size="120"
+                        max="120"
+                        (ngModel)="user.username"
+                        #username="ngModel"
+                        required
+
+                    >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="login-password">Password</label>
+                    <input 
+                        type="text"
+                        id="login-password"
+                        name="password"
+                        class="form-control"
+                        size="120"
+                        max="120"
+                        (ngModel)="user.password"
+                        #password="ngModel"
+                        required
+                    >
+                </div>
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                    {{ errorMessage }}
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 btn-toolbar">
+                        <button type="submit">Login</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+    
+
+</div>

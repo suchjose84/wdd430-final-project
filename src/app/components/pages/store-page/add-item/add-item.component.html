@@ -1,0 +1,21 @@
+<button type="button" class="btn btn-primary" (click)="toggleForm()">
+    Add Listing
+</button>
+
+<form *ngIf="showForm" id="addItem-form" #f="ngForm" (ngSubmit)="onAddItem(f)">
+    <!-- Your form fields here -->
+    <div class="mb-3">
+        <label for="itemName" class="form-label">Item Name</label>
+        <input type="text" class="form-control" id="itemName" name="itemName" (ngModel)="itemName" required>
+    </div>
+    <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="text" class="form-control" id="price" name="price" (ngModel)="price" required>
+    </div>
+    <div class="mb-3">
+        <label for="stock" class="form-label">Stock</label>
+        <input type="text" class="form-control" id="stock" name="stock" (ngModel)="stock" required>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

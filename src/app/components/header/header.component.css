@@ -1,0 +1,10 @@
+.headerBox {
+    background-color:aquamarine;
+    border: 1px solid blue;
+    height: 50px;
+}
+
+.headerBox ul {
+    display: flex;
+    justify-content: space-between;
+}

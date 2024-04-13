@@ -1,0 +1,104 @@
+<div class="signup-div panel panel-default">
+    <div class="panel-body">
+        <form id="signup-form" #f="ngForm" (ngSubmit)="onSubmit(f)">
+            
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="signup-username">Username</label>
+                    <input 
+                        type="text"
+                        id="signup-username"
+                        name="username"
+                        class="form-control"
+                        size="120"
+                        maxlength="120"
+                        (ngModel)="user.username"
+                        #username="ngModel"
+                        required
+                    >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="signup-email">Email</label>
+                    <input 
+                        type="email"
+                        id="signup-email"
+                        name="email"
+                        class="form-control"
+                        size="120"
+                        maxlength="120"
+                        (ngModel)="user.email"
+                        #email="ngModel"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="signup-password">Password</label>
+                    <input 
+                        type="password"
+                        id="signup-password"
+                        name="password"
+                        class="form-control"
+                        size="120"
+                        maxlength="120"
+                        (ngModel)="user.password"
+                        #password="ngModel"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="signup-firstName">First Name</label>
+                    <input 
+                        type="text"
+                        id="signup-firstName"
+                        name="firstName"
+                        class="form-control"
+                        size="120"
+                        maxlength="120"
+                        (ngModel)="user.firstName"
+                        #firstName="ngModel"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="signup-lastName">Last Name</label>
+                    <input 
+                        type="text"
+                        id="signup-lastName"
+                        name="lastName"
+                        class="form-control"
+                        size="120"
+                        maxlength="120"
+                        (ngModel)="user.lastName"
+                        #lastName="ngModel"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+            </div>
+            <div *ngIf="successMessage" class="alert alert-success">
+                {{ successMessage }}<span><a [routerLink]="['/login']">Login</a></span>
+            </div>
+              
+
+            <div class="row">
+                <div class="col-xs-12 btn-toolbar">
+                    <button type="submit">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
