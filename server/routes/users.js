@@ -8,8 +8,8 @@ const checkAuth = require('../middleware/check-auth');
 router.post('/signup', userController.addUser);
 router.post('/authenticate', userController.loginUser);
 router.get('/user', checkAuth, userController.getUser);
-router.patch('/addItem/:username', checkAuth, userController.addForSaleItem);
-router.delete('/deleteItem/:username/:itemId', checkAuth, userController.deleteForSaleItem);
+router.patch('/addItem/:username', userController.addForSaleItem);
+router.delete('/deleteItem/:username/:itemId', userController.deleteForSaleItem);
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
