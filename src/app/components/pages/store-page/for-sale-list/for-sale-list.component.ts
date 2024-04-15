@@ -26,11 +26,9 @@ export class ForSaleListComponent implements OnInit, OnDestroy {
   constructor(private storeService: StoreService) { }
 
   ngOnInit() {
-    console.log('ngOnInit called');
     
     this.user = this.storeService.user;
     this.items = this.user.forSaleItems;
-    console.log('Initial user:', this.user);
 
     this.userSubscription = this.storeService.userChangedEvent.subscribe(
       user => {
@@ -41,31 +39,14 @@ export class ForSaleListComponent implements OnInit, OnDestroy {
     this.forSaleItemsSubscription = this.storeService.itemsChangedEvent.subscribe(
       items => {
         this.items = items;
-        console.log("updated items: ", this.items);
       }
     );
 
-    // Subscribe to deleteItem event
-    // this.deleteSubscription = this.storeService.deleteItem.subscribe(
-    //   itemId => {
-    //     console.log("Delete item ID received:", itemId); // Ensure this logs the item ID
-    //     this.items = this.items.filter(item => item.itemId !== itemId);
-    //   }
-    // );
-
-    // Subscribe to addItem event
-    this.addItemSubscription = this.storeService.itemsChangedEvent.subscribe(
-      items => {
-        this.items = items;
-        console.log("New items added: ", this.items);
-      }
-    );
   }
 
   onDeleteItem(itemId: string){
-    console.log(this.user);
-    console.log(itemId);
-    this.storeService.deleteForSaleItem(this.user.username, itemId);
+    const username = this.user.username;
+    this.storeService.deleteForSaleItem(username, itemId);
   }
   ngOnDestroy() {
     // Unsubscribe from subscriptions

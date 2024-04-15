@@ -14,7 +14,6 @@ export class ForSaleCardComponent {
   @Output() deleteItem = new EventEmitter<string>();
 
   onDeleteItem(itemId: string) {
-    console.log('onDeleteItem triggered with itemId:', itemId);
     this.deleteItem.emit(itemId);
   }
 

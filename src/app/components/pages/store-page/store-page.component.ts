@@ -30,7 +30,6 @@ export class StorePageComponent implements OnInit, OnDestroy{
 
       if(this.user){
         this.storeName =`${this.user.firstName}'s Store`;
-        console.log("onusersub");
       }
     });
     

@@ -12,7 +12,9 @@ import { ForSaleItem } from "./for-sale-item.model";
 export default class StoreService{
     user: User;
     forSaleItems: ForSaleItem[];
-    apiUrl:string = 'http://localhost:3000/api';
+    localUrl: string = 'http://localhost:3000';
+    renderUrl: string = 'https://wdd430-final-project.onrender.com';
+    url: string = this.localUrl;
     // maxItemId: number;
     userChangedEvent = new Subject<User>();
     itemsChangedEvent = new Subject<ForSaleItem[]>();
@@ -44,7 +46,7 @@ export default class StoreService{
       'Authorization': `Bearer ${token}`}
     );
   
-    this.http.get<User>('http://localhost:3000/api/user', { headers })
+    this.http.get<User>(`${this.url}/api/user`, { headers })
       .pipe(
         catchError(error => {
           console.error('Error fetching user information: ', error);
@@ -68,7 +70,7 @@ export default class StoreService{
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
     // Include username as a query parameter
-    const url = `${this.apiUrl}/addItem/${username}`;
+    const url = `${this.url}/api/addItem/${username}`;
 
     this.http.patch<{ message: string, items: ForSaleItem[]}>(url, item, { headers })
     .pipe(
@@ -101,17 +103,15 @@ export default class StoreService{
   }
 
   deleteForSaleItem(username: string, itemId: string) {
-    console.log(username);
-    console.log(itemId);
 
     if(!username || !itemId) {
       return throwError(() => new Error('Invalid request'));
     }
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     
-    const url = `${this.apiUrl}/deleteItem/${username}/${itemId}`;
+    const url = `${this.url}/api/deleteItem/${username}/${itemId}`;
   
-    return this.http.delete<{ message: string, items: ForSaleItem[] }>(url, { headers })
+    return this.http.delete<{ message: string, user: User }>(url, { headers })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           let errorMessage = 'An error occurred';
@@ -126,7 +126,9 @@ export default class StoreService{
         })
       ).subscribe({
         next: (responseData) => {
-          console.log(responseData);
+          this.user = responseData.user;
+          this.userChangedEvent.next(this.user);
+          this.itemsChangedEvent.next(this.user.forSaleItems);
         }
 
       });

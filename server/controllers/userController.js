@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const crypto = require('crypto');
 const checkAuth = require('../middleware/check-auth');
 
 // const User = db.user;
@@ -94,7 +93,7 @@ module.exports.loginUser = async(req, res, next) => {
 
         // const secretKey = crypto.randomBytes(32).toString('hex');
         const secretKey = "my_secret_key";
-        const token = jwt.sign({ username: user.username }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ username: user.username }, secretKey, { expiresIn: '10h' });
 
         //Send token to client
         res.status(200).json({ token });
@@ -128,11 +127,8 @@ module.exports.getUser = async(req, res, next) => {
 module.exports.addForSaleItem = async (req, res, next) => {
     try {
         const { itemName, price, stock, itemId } = req.body;
-        console.log(itemName, itemId, price, stock);
-        console.log(req.body);
 
         const user = await User.findOne({ username: req.params.username }).select('-password');
-        console.log(user.forSaleItems);
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -144,11 +140,9 @@ module.exports.addForSaleItem = async (req, res, next) => {
             price,
             stock
         };
-        console.log(newItem);
 
         // Push the new item into forSaleItems array
         await user.forSaleItems.push(newItem);
-        console.log(user.forSaleItems);
         // Save the updated user
         await user.save();
 
@@ -161,7 +155,38 @@ module.exports.addForSaleItem = async (req, res, next) => {
     }
 }
 
-module.exports.deleteForSaleItem = (req, res, next) => {
-    console.log("hello");
+module.exports.deleteForSaleItem = async (req, res, next) => {
+    try {
+        const { username, itemId } = req.params;
+
+        const user = await User.findOne({ username: username }).select('-password');
+
+        if(!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        //find the index of the item with the given itemId in the forSaleItems array
+        //Make sure to make the item.id a string
+        const itemIndex = user.forSaleItems.findIndex(item => item.itemId.trim() === itemId.trim());
+
+        if(itemIndex === -1) {
+            return -res.status(404).json({ message: "Item not found for the user" });
+
+        }
+        //remove the item from the forSaleItems array
+        user.forSaleItems.splice(itemIndex, 1);
+
+        await user.save();
+        res.status(200).json({ 
+            message: `Item with itemId: ${itemId} deleted successfully`,  
+            user: user
+        });
+
+    } catch (error){
+        console.error('Error deleting item:', error);
+        res.status(500).json({ message: 'Server error'});
+
+    }
+    
 }
 
